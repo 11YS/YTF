@@ -1,2 +1,2 @@
 # YTF
-linux dirver
+# This is a learning-driven note
