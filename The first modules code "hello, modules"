@@ -1,0 +1,41 @@
+一、hello.c code
+
+#include <linux/init.h>
+#include <linux/module.h>
+#include <linux/moduleparam.h>
+
+MODULE_LICENSE("Dual BSD/GPL");
+static int hello_init(void)
+{
+	printk(KERN_ALERT"Hello, Linux driver!\n");
+	return 0;
+}
+
+static void hello_exit(void)
+{
+	printk(KERN_ALERT"Goodbye!\n");
+}
+
+module_init(hello_init);
+module_exit(hello_exit);
+
+
+二、Makefile
+
+ifeq ($(KERNELRELEASE),)
+KDIR:=/lib/modules/$(shell uname -r)/build
+PWD:=$(shell pwd)
+modules:
+	$(MAKE) -C $(KDIR) M=$(PWD) modules
+modules_install:
+	$(MAKE) -C $(KDIR) M=$(PWD) modules_install
+clean:
+	rm -rf *.o *.ko .depend *.mod.o *.mod.c Module.* modules.*
+.PHONY:modules modules_install clean
+else
+obj-m :=hello.o
+endif
+
+三、sudo make
+
+四、
